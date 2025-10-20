@@ -1,6 +1,8 @@
 # Database Setup & Access Guide
 
-## Quick Setup (5 minutes)
+## Quick Setup 
+
+TO USE IT, add import of "trego-backend/dbtest" in main.go
 
 ### 1. Start Database
 ```bash
