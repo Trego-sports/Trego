@@ -1,0 +1,20 @@
+services:
+  trego-backend:
+    build:
+      context: ./trego-backend
+      dockerfile: Dockerfile.backend
+    container_name: trego-backend
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  trego-web:
+    build:
+      context: ./trego-web # 👈 your actual frontend folder
+      dockerfile: Dockerfile.frontend
+    container_name: trego-web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - trego-backend
+    restart: unless-stopped
