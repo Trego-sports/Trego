@@ -48,4 +48,3 @@ func run(conf *config.Config, logger logger.Logger) {
 	err := endless.ListenAndServe(fmt.Sprintf(":%s", conf.Port), ginEngine)
 	log.Printf("Server closed, error: %v", err)
 }
-
