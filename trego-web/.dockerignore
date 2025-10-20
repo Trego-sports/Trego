@@ -1,0 +1,30 @@
+# Node/Bun dependencies
+node_modules
+bun.lockb
+.npm
+.pnpm
+.bun
+.tanstack
+
+# Build output
+dist
+dist-ssr
+.nitro
+
+# Environment and config
+.env
+*.local
+
+# OS/IDE files
+.DS_Store
+.vscode
+.idea
+*.swp
+
+# Logs and temporary files
+*.log
+count.txt
+
+# Git
+.git
+.gitignore
