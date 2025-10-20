@@ -1,0 +1,21 @@
+# ---------- Stage 1: Build ----------
+FROM golang:1.25-alpine AS builder
+WORKDIR /app
+
+RUN apk add --no-cache ca-certificates
+
+# copy go module files and download dependencies
+COPY go.mod go.sum ./
+RUN go mod download
+
+# copy the rest of the source code
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /trego-backend
+
+# ---------- Stage 2: Minimal runtime ----------
+FROM alpine:3.20
+WORKDIR /app
+RUN apk add --no-cache ca-certificates
+COPY --from=builder /trego-backend /usr/local/bin/trego-backend
+EXPOSE 8080
+CMD ["trego-backend"]
