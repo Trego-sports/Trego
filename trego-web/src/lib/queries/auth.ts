@@ -18,7 +18,7 @@ interface GoogleLoginResponse {
 export const googleLoginMutationOptions = mutationOptions({
   mutationFn: async (): Promise<GoogleLoginResponse> => {
     const response = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/google-login`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/google-login`,
       { method: "POST" }
     );
 
