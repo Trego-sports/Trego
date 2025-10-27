@@ -27,6 +27,9 @@ func SetupRouter(routerGroup *gin.RouterGroup, optFuncs ...func(*Options)) {
 	// Setup health check routes
 	setupHealthCheckHandler(routerGroup, opt.Config)
 
+	// Setup database health check routes
+	setupDbHealthCheckHandler(routerGroup, opt.Config)
+
 	// Setup API routes
 	setupAPIRoutes(routerGroup, opt.Config)
 }

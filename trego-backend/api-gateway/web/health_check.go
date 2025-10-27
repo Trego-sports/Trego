@@ -25,24 +25,25 @@ type healthCheckAPIHandler struct {
 func (h *healthCheckAPIHandler) healthCheck(ctx *gin.Context) {
 	// Get the logger from context (includes trace ID)
 	log := ginmiddleware.GetLoggerFromContext(ctx)
-	
+
 	// Log the request
-	log.Info("Health check requested", 
+	log.Info("Server health check requested",
 		logger.Field{Key: "endpoint", Value: "/healthCheck"},
 		logger.Field{Key: "method", Value: ctx.Request.Method},
 		logger.Field{Key: "user_agent", Value: ctx.Request.UserAgent()},
 	)
-	
+
 	// Log build version for debugging
-	log.Debug("Health check response", 
+	log.Debug("Server health check response",
 		logger.Field{Key: "build_version", Value: h.Conf.BuildVersion},
 	)
-	
+
 	ctx.JSON(http.StatusOK, gin.H{
+		"status":       "ok",
 		"buildVersion": h.Conf.BuildVersion,
-		"time":         time.Now().UTC().Format(time.UnixDate),
+		"timestamp":    time.Now().UTC(),
 	})
-	
+
 	// Log successful response
-	log.Info("Health check completed successfully")
+	log.Info("Server health check completed successfully")
 }
