@@ -11,10 +11,14 @@ import (
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 // main is the entry point of the Trego API Gateway service
 func main() {
+	// Load .env file (ignore error if file doesn't exist)
+	_ = godotenv.Load()
+
 	// Load configuration
 	conf := config.New()
 

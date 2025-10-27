@@ -31,7 +31,7 @@ func SetupRouter(routerGroup *gin.RouterGroup, optFuncs ...func(*Options)) {
 	setupDbHealthCheckHandler(routerGroup, opt.Config)
 
 	// Setup API routes
-	setupAPIRoutes(routerGroup)
+	setupAPIRoutes(routerGroup, opt.Config)
 }
 
 // setupBasicMiddlewares configures common middlewares for all routes
@@ -54,7 +54,7 @@ func setupBasicMiddlewares(routerGroup *gin.RouterGroup, logger logger.Logger) {
 // }
 
 // setupAPIRoutes configures API routes
-func setupAPIRoutes(routerGroup *gin.RouterGroup) {
+func setupAPIRoutes(routerGroup *gin.RouterGroup, cfg *config.Config) {
 	// API v1 routes group
 	v1 := routerGroup.Group("/api/v1")
 	{
@@ -64,5 +64,10 @@ func setupAPIRoutes(routerGroup *gin.RouterGroup) {
 				"message": "pong",
 			})
 		})
+
+		// Auth routes
+		authHandler := NewAuthHandler(cfg)
+		v1.POST("/google-login", authHandler.GoogleLoginHandler)
+		v1.GET("/google-callback", authHandler.GoogleCallbackHandler)
 	}
 }

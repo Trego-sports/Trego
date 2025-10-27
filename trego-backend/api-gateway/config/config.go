@@ -9,20 +9,28 @@ import (
 
 // Config holds all configuration for the API Gateway
 type Config struct {
-	Port        string
-	GinMode     string
-	LogLevel    string
-	BuildVersion string
+	Port               string
+	GinMode            string
+	LogLevel           string
+	BuildVersion       string
+	GoogleClientID     string
+	GoogleClientSecret string
+	GoogleRedirectURI  string
+	FrontendURL        string
 }
 
 // New creates a new configuration instance with default values
 // and overrides them with environment variables if present
 func New() *Config {
 	config := &Config{
-		Port:         getEnv("PORT", "8080"),
-		GinMode:      getEnv("GIN_MODE", gin.ReleaseMode),
-		LogLevel:     getEnv("LOG_LEVEL", "info"),
-		BuildVersion: getEnv("BUILD_VERSION", "1.0.0"),
+		Port:               getEnv("PORT", "8080"),
+		GinMode:            getEnv("GIN_MODE", gin.ReleaseMode),
+		LogLevel:           getEnv("LOG_LEVEL", "info"),
+		BuildVersion:       getEnv("BUILD_VERSION", "1.0.0"),
+		GoogleClientID:     getEnv("GOOGLE_CLIENT_ID", ""),
+		GoogleClientSecret: getEnv("GOOGLE_CLIENT_SECRET", ""),
+		GoogleRedirectURI:  getEnv("GOOGLE_REDIRECT_URI", "http://localhost:8080/api/v1/google-callback"),
+		FrontendURL:        getEnv("FRONTEND_URL", "http://localhost:3000"),
 	}
 
 	return config

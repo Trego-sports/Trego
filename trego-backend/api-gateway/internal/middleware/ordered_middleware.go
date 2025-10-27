@@ -12,6 +12,6 @@ func GetOrderedMiddleware(logger logger.Logger) []gin.HandlerFunc {
 		NewTraceIDMiddleware(),
 		NewLoggerMiddleware(logger),
 		// RecoveryMiddleware(),
-		// CORSMiddleware(),
+		CORSMiddleware(),
 	}
 }
