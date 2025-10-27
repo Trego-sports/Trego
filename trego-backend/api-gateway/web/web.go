@@ -4,6 +4,7 @@ import (
 	"trego-backend/api-gateway/config"
 	ginmiddleware "trego-backend/api-gateway/internal/middleware"
 	"trego-backend/api-gateway/logger"
+	"trego-backend/api-gateway/service/v1/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,8 +31,8 @@ func SetupRouter(routerGroup *gin.RouterGroup, optFuncs ...func(*Options)) {
 	// Setup database health check routes
 	setupDbHealthCheckHandler(routerGroup, opt.Config)
 
-	// Setup API routes
-	setupAPIRoutes(routerGroup)
+	// Setup API routes with dependencies
+	setupAPIRoutes(routerGroup, opt.Config)
 }
 
 // setupBasicMiddlewares configures common middlewares for all routes
@@ -54,7 +55,7 @@ func setupBasicMiddlewares(routerGroup *gin.RouterGroup, logger logger.Logger) {
 // }
 
 // setupAPIRoutes configures API routes
-func setupAPIRoutes(routerGroup *gin.RouterGroup) {
+func setupAPIRoutes(routerGroup *gin.RouterGroup, conf *config.Config) {
 	// API v1 routes group
 	v1 := routerGroup.Group("/api/v1")
 	{
@@ -64,5 +65,8 @@ func setupAPIRoutes(routerGroup *gin.RouterGroup) {
 				"message": "pong",
 			})
 		})
+
+		// Setup user routes
+		user.SetupUserRoutes(v1, conf)
 	}
 }
