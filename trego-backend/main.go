@@ -7,6 +7,7 @@ import (
 	"trego-backend/api-gateway/config"
 	"trego-backend/api-gateway/logger"
 	"trego-backend/api-gateway/web"
+	"trego-backend/database"
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,17 @@ func main() {
 
 	// Create logger
 	logger := logger.New()
+
+	// Initialize database connection
+	if err := database.Connect(); err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	defer database.Close()
+
+	// Run database migrations
+	if err := database.RunMigrations(); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
 
 	// Run the server
 	run(conf, logger)
