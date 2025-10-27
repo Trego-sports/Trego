@@ -1,6 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { googleLoginMutationOptions } from "../lib/queries/auth";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -23,26 +32,54 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="w-full max-w-md px-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Trego</h1>
-          <p className="text-slate-600">Sign in to continue</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8 space-y-2">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent leading-tight">
+            Trego
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            Your Hub for Sports Connections
+          </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          <button
-            onClick={handleGoogleSignIn}
-            disabled={googleLoginMutation.isPending}
-            className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-white border-2 border-slate-200 rounded-lg hover:border-slate-300 hover:shadow-md transition-all duration-200 group disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <img src="/google-logo.svg" alt="Google" className="w-5 h-5" />
-            <span className="text-slate-700 font-medium group-hover:text-slate-900">
-              {googleLoginMutation.isPending
-                ? "Redirecting..."
-                : "Sign in with Google"}
-            </span>
-          </button>
+        <Card className="border-border/50 shadow-xl">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+            <CardDescription className="text-center">
+              Sign in to continue to your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button
+              onClick={handleGoogleSignIn}
+              disabled={googleLoginMutation.isPending}
+              variant="outline"
+              size="lg"
+              className="w-full"
+            >
+              {googleLoginMutation.isPending ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Redirecting...
+                </>
+              ) : (
+                <>
+                  <img src="/google-logo.svg" alt="Google" className="size-5" />
+                  Sign in with Google
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+
+        <div className="mt-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            New to Trego?{" "}
+            <a href="/" className="text-primary hover:underline font-medium">
+              Learn more
+            </a>
+          </p>
         </div>
       </div>
     </div>

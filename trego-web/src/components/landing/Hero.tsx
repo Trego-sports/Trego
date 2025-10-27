@@ -1,23 +1,42 @@
 import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export function Hero() {
   return (
-    <div className="text-center mb-16">
-      <h1 className="text-6xl font-bold text-slate-900 mb-4">Trego</h1>
-      <p className="text-2xl text-slate-600 mb-8">
+    <div className="text-center mb-20">
+
+      <Badge variant="secondary" className="mb-6 gap-1.5">
+        <Sparkles className="size-3" />
+        Now in Beta
+      </Badge>
+
+      <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-6 text-foreground">
+        Trego
+      </h1>
+
+      <p className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground/90 mb-6">
         Your Hub for Sports Connections
       </p>
-      <p className="text-lg text-slate-500 max-w-3xl mx-auto mb-12">
+
+      <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
         Connect with players, teams, clubs, and coaches all in one place. Find
         reliable teammates, discover tryout opportunities, and build lasting
         sports connections.
       </p>
-      <Link
-        to="/login"
-        className="inline-block px-8 py-4 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors duration-200 shadow-lg hover:shadow-xl"
-      >
-        Get Started
-      </Link>
+
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <Button asChild size="lg" className="text-base">
+          <Link to="/login">
+            Get Started
+            <ArrowRight />
+          </Link>
+        </Button>
+        <Button asChild variant="outline" size="lg" className="text-base">
+          <a href="#features">Learn More</a>
+        </Button>
+      </div>
     </div>
   );
 }
