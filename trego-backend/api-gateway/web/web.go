@@ -27,6 +27,9 @@ func SetupRouter(routerGroup *gin.RouterGroup, optFuncs ...func(*Options)) {
 	// Setup health check routes
 	setupHealthCheckHandler(routerGroup, opt.Config)
 
+	// Setup database health check routes
+	setupDbHealthCheckHandler(routerGroup, opt.Config)
+
 	// Setup API routes
 	setupAPIRoutes(routerGroup)
 }
@@ -43,7 +46,7 @@ func setupBasicMiddlewares(routerGroup *gin.RouterGroup, logger logger.Logger) {
 // setupHealthCheckRoutes configures health check endpoints (legacy - kept for reference)
 // func setupHealthCheckRoutes(routerGroup *gin.RouterGroup) {
 // 	healthHandler := handlers.NewHealthHandler()
-	
+
 // 	// Health check endpoints
 // 	routerGroup.GET("/health", healthHandler.Check)
 // 	routerGroup.GET("/health/ready", healthHandler.Readiness)
