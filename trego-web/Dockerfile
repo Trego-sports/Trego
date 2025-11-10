@@ -1,35 +1,37 @@
-# ────────────────
-# Stage 1: Build
-# ────────────────
-FROM oven/bun:1 AS builder
+# syntax=docker/dockerfile:1.7
 
-# Set working directory
+############################
+# 1️⃣  Build stage — Bun
+############################
+FROM oven/bun:1 AS builder
 WORKDIR /app
 
-# Copy only necessary files for dependency resolution
-COPY bun.lock package.json ./
+# Copy only dependency manifests first (for caching)
+COPY package.json bun.lock* ./
 
-# Install dependencies using Bun (fast & cache-friendly)
+# Install dependencies
 RUN bun install --frozen-lockfile
 
-# Copy the rest of the project files
+# Copy the rest of your project
 COPY . .
 
-# Build the production-ready app (Vite build)
+# Build the Vite app
 RUN bun run build
 
-# ────────────────────────────────
-# Stage 2: Serve (Static Nginx)
-# ────────────────────────────────
-FROM nginx:alpine
 
-# Copy built files from builder stage
+
+############################
+# 2️⃣  Run stage — Nginx
+############################
+FROM nginx:1.27-alpine AS run
+
+# Replace default Nginx site config with our SPA config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built assets from Bun build stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy optional Nginx config (uncomment if custom routes)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
+# Expose web port
 EXPOSE 80
 
 # Start Nginx
